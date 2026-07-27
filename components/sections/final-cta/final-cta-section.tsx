@@ -11,7 +11,7 @@ export function FinalCTASection() {
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const supportRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLAnchorElement>(null);
+  const ctaRef = useRef<HTMLFormElement>(null);
 
   // Custom Dropdown State
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -102,7 +102,7 @@ export function FinalCTASection() {
 
     // Note: User explicitly requested this exact syntax for the Vite environment variable
     // We add a safe fallback just in case this is running under standard Next.js
-    const accessKey = (typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_WEB3FORMS_ACCESS_KEY : process.env.VITE_WEB3FORMS_ACCESS_KEY) || process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    const accessKey = (typeof import.meta !== 'undefined' && (import.meta as any).env ? (import.meta as any).env.VITE_WEB3FORMS_ACCESS_KEY : process.env.VITE_WEB3FORMS_ACCESS_KEY) || process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
     
     if (!accessKey) {
       console.error("Missing Web3Forms Access Key");

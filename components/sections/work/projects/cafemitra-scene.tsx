@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { TabletDevice } from "../devices/tablet-device";
 
 export const CafeMitraScene = forwardRef<HTMLDivElement>((props, ref) => {
-  const customEase = [0.22, 1, 0.36, 1];
+  const customEase = [0.22, 1, 0.36, 1] as const;
 
   return (
     <motion.div 

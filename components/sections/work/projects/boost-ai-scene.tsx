@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { MacbookDevice } from "../devices/macbook-device";
 
 export const BoostAIScene = forwardRef<HTMLDivElement>((props, ref) => {
-  const customEase = [0.22, 1, 0.36, 1];
+  const customEase = [0.22, 1, 0.36, 1] as const;
 
   const itemVariants = {
     enter: { opacity: 0, y: 40 },

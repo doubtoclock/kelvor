@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 
 export function HeroMeta() {
   const shouldReduceMotion = useReducedMotion();
-  const ease = [0.22, 1, 0.36, 1];
+  const ease = [0.22, 1, 0.36, 1] as const;
 
   return (
     <div className="hero-fade-group flex flex-col md:flex-row md:items-end justify-between w-[calc(100vw-3rem)] lg:w-[calc(100vw-6rem)] max-w-full text-[9px] sm:text-[10px] font-semibold tracking-[0.15em] text-muted-foreground uppercase gap-6 pb-2 md:pb-0">

@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { motion } from "framer-motion";
 
 export const MedioScene = forwardRef<HTMLDivElement>((props, ref) => {
-  const customEase = [0.22, 1, 0.36, 1];
+  const customEase = [0.22, 1, 0.36, 1] as const;
 
   return (
     <motion.div 

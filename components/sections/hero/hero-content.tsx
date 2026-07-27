@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 
 export function HeroContent() {
   const shouldReduceMotion = useReducedMotion();
-  const ease = [0.22, 1, 0.36, 1];
+  const ease = [0.22, 1, 0.36, 1] as const;
 
   return (
     <div className="hero-fade-group w-full flex flex-col items-start">
