@@ -1,0 +1,52 @@
+"use client";
+
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+
+export function Navbar() {
+  const shouldReduceMotion = useReducedMotion();
+  const linkBase = "relative pb-1 hover:text-foreground transition-colors after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:ease-out after:bg-current";
+
+  return (
+    <motion.nav 
+      className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-8 lg:px-12"
+      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+    >
+      {/* Logo */}
+      <a href="#home" className="select-none flex items-center">
+        <Image 
+          src="/brand/kelvor-logo.png" 
+          alt="Kelvor" 
+          width={200} 
+          height={40} 
+          className="h-6 md:h-8 w-auto"
+          priority
+        />
+      </a>
+
+      {/* Desktop Links */}
+      <div className="hero-nav-fade hidden md:flex items-center gap-8 lg:gap-12 text-[10px] md:text-xs font-semibold tracking-[0.15em] text-muted-foreground uppercase">
+        <a href="#work" className={linkBase}>Work</a>
+        <a href="#process" className={linkBase}>Process</a>
+        <a href="#capabilities" className={linkBase}>Capabilities</a>
+        <a href="#about" className={linkBase}>About</a>
+        <a href="#contact" className={`group flex items-center gap-1.5 text-foreground relative pb-1 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:ease-out after:bg-current`}>
+          <span>LET&apos;S TALK</span>
+          <ArrowUpRight strokeWidth={1.5} className="w-3.5 h-3.5 transition-transform duration-300 ease-out group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
+        </a>
+      </div>
+
+      {/* Mobile Menu Trigger */}
+      <div className="hero-nav-fade md:hidden">
+        <button className="text-[10px] font-semibold tracking-[0.15em] text-foreground uppercase hover:opacity-80 transition-opacity">
+          Menu
+        </button>
+      </div>
+    </motion.nav>
+  );
+}
+
+export default Navbar;
