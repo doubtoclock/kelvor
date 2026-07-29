@@ -91,16 +91,32 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
           {/* Hidden Adjacent Images Prefetch */}
           {prefetchIndices.length > 0 && (
             <div className="absolute w-0 h-0 overflow-hidden opacity-0 pointer-events-none" aria-hidden="true">
-              {prefetchIndices.map(idx => (
-                <Image
-                  key={`preload-${idx}`}
-                  src={project.galleryImages[idx]}
-                  alt=""
-                  fill
-                  sizes="(min-width: 768px) 75vw, 100vw"
-                  priority={true}
-                />
-              ))}
+              {prefetchIndices.map(idx => {
+                const src = project.galleryImages[idx];
+                const isVideo = src.endsWith('.mp4') || src.endsWith('.webm');
+                
+                if (isVideo) {
+                  return (
+                    <link 
+                      key={`preload-${idx}`} 
+                      rel="preload" 
+                      as="video" 
+                      href={src} 
+                    />
+                  );
+                }
+                
+                return (
+                  <Image
+                    key={`preload-${idx}`}
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 75vw, 100vw"
+                    priority={true}
+                  />
+                );
+              })}
             </div>
           )}
 
@@ -172,14 +188,34 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className="relative w-full h-full"
                   >
-                    <Image
-                      src={project.galleryImages[currentIndex]}
-                      alt={`${project.title} Gallery Image ${currentIndex + 1}`}
-                      fill
-                      className="object-contain"
-                      sizes="(min-width: 768px) 75vw, 100vw"
-                      priority
-                    />
+                    {(() => {
+                      const src = project.galleryImages[currentIndex];
+                      const isVideo = src.endsWith('.mp4') || src.endsWith('.webm');
+                      
+                      if (isVideo) {
+                        return (
+                          <video
+                            src={src}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-contain"
+                          />
+                        );
+                      }
+                      
+                      return (
+                        <Image
+                          src={src}
+                          alt={`${project.title} Gallery Media ${currentIndex + 1}`}
+                          fill
+                          className="object-contain"
+                          sizes="(min-width: 768px) 75vw, 100vw"
+                          priority
+                        />
+                      );
+                    })()}
                   </motion.div>
                 </motion.div>
               </AnimatePresence>

@@ -19,7 +19,13 @@ export const PROJECTS: ProjectData[] = [
     coverImage: "/projects/medio/medio.png",
     device: "phone",
     galleryImages: [
-      "/projects/medio/medio.png"
+      "/projects/medio/medio.png",
+      "/projects/medio/2.png",
+      "/projects/medio/3.png",
+      "/projects/medio/4.png",
+      "/projects/medio/5.png",
+      "/projects/medio/6.png",
+      "/projects/medio/7.png"
     ]
   },
   {
@@ -32,7 +38,13 @@ export const PROJECTS: ProjectData[] = [
     device: "phone",
     galleryImages: [
       "/projects/cafemitra/cafemitra-consumer-app.png",
-      "/projects/cafemitra/cafe-erp.png"
+      "/projects/cafemitra/cafe-erp.png",
+      "/projects/cafemitra/2.png",
+      "/projects/cafemitra/3.png",
+      "/projects/cafemitra/4.png",
+      "/projects/cafemitra/5.png",
+      "/projects/cafemitra/6.png",
+      "/projects/cafemitra/7.png"
     ]
   },
   {
@@ -44,7 +56,8 @@ export const PROJECTS: ProjectData[] = [
     coverImage: "/projects/boostai/boostai.webp",
     device: "macbook",
     galleryImages: [
-      "/projects/boostai/boostai.webp"
+      "/projects/boostai/boostai.webp",
+      "/projects/boostai/boostai.mp4"
     ]
   }
 ];
