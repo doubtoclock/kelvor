@@ -48,10 +48,10 @@ export default function Footer() {
       <div className="max-w-[1400px] mx-auto w-full px-6 lg:px-12 flex flex-col gap-12 md:gap-16">
         
         {/* Top Information Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr] gap-x-8 gap-y-12 md:gap-16">
+        <div className="grid grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-x-8 gap-y-12 lg:gap-16">
           
           {/* LEFT: Brand Statement & Email */}
-          <div ref={(el) => { if (el) columnsRef.current[0] = el; }} className="col-span-2 md:col-span-1 flex flex-col justify-start">
+          <div ref={(el) => { if (el) columnsRef.current[0] = el; }} className="col-span-2 lg:col-span-1 flex flex-col justify-start">
             <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-[#F5F5F5] mb-3">Kelvor</h3>
             <p className="text-[14px] md:text-[15px] leading-[1.6] text-muted-foreground max-w-[320px] mb-6 md:mb-8">
               Independent product studio building thoughtful digital products.
@@ -69,7 +69,7 @@ export default function Footer() {
           </div>
 
           {/* CENTER: Explore */}
-          <div ref={(el) => { if (el) columnsRef.current[1] = el; }} className="col-span-1 flex flex-col md:pl-4">
+          <div ref={(el) => { if (el) columnsRef.current[1] = el; }} className="col-span-1 flex flex-col lg:pl-4">
             <h4 className="text-[10px] md:text-[11px] font-semibold tracking-[0.2em] uppercase text-muted-foreground/60 mb-5">Explore</h4>
             <nav className="flex flex-col space-y-3">
               <a href="#work" className="text-[13px] md:text-[14px] leading-none text-[#F5F5F5]/80 hover:text-white transition-transform duration-300 ease-out hover:translate-x-[2px] w-fit">Work</a>
@@ -80,7 +80,7 @@ export default function Footer() {
           </div>
 
           {/* RIGHT: Connect */}
-          <div ref={(el) => { if (el) columnsRef.current[2] = el; }} className="col-span-1 flex flex-col md:pl-4">
+          <div ref={(el) => { if (el) columnsRef.current[2] = el; }} className="col-span-1 flex flex-col lg:pl-4">
             <h4 className="text-[10px] md:text-[11px] font-semibold tracking-[0.2em] uppercase text-muted-foreground/60 mb-5">Connect</h4>
             <nav className="flex flex-col space-y-3">
               <a href="https://www.linkedin.com/company/kelvor-tech/" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-[13px] md:text-[14px] leading-none text-[#F5F5F5]/80 hover:text-white transition-transform duration-300 ease-out hover:translate-x-[2px] w-fit">

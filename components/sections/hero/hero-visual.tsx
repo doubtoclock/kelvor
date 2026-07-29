@@ -16,7 +16,7 @@ export function HeroVisual() {
         style={{ transformOrigin: "center" }}
       >
         <Image 
-          src="/images/hero.png" 
+          src="/images/hero.webp" 
           alt="Abstract glass and light waves" 
           fill
           className="object-cover object-[60%_center] md:object-[75%_center] lg:object-right opacity-90"

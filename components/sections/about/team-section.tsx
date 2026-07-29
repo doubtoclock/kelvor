@@ -15,9 +15,9 @@ const GithubIcon = ({ className }: { className?: string }) => (
 
 const TEAM = [
   { name: "Ayush Jain", image: "/images/Ayush_Jain.jpeg", linkedin: "https://www.linkedin.com/in/ayush-jain-36a9411b7/", github: "https://github.com/Ayushdotpy" },
-  { name: "Achal Dubey", image: "/images/Achal_Dubey.jpg", linkedin: "https://www.linkedin.com/in/achal-dubey-660352378/", github: "https://github.com/achaldubey099-crypto" },
+  { name: "Achal Dubey", image: "/images/Achal_Dubey.webp", linkedin: "https://www.linkedin.com/in/achal-dubey-660352378/", github: "https://github.com/achaldubey099-crypto" },
   { name: "Chinmay Sabharwal", image: "/images/Chinmay_Sabharwal.jpeg", linkedin: "https://www.linkedin.com/in/chinmay-sabharwal-b29980313/", github: "https://github.com/Chinmaystar" },
-  { name: "Samarth Gupta", image: "/images/Samarth_Gupta.jpeg", linkedin: "https://www.linkedin.com/in/samarth-gupta-vnit/", github: "https://github.com/doubtoclock" }
+  { name: "Samarth Gupta", image: "/images/Samarth_Gupta.webp", linkedin: "https://www.linkedin.com/in/samarth-gupta-vnit/", github: "https://github.com/doubtoclock" }
 ];
 
 export function TeamSection() {

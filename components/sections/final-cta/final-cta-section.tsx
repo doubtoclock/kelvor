@@ -224,7 +224,7 @@ export function FinalCTASection() {
                 type="text" 
                 name="name"
                 placeholder="Jane Doe"
-                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 focus:outline-none focus:border-white transition-colors"
+                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 transition-colors duration-300 hover:border-white/40 focus:outline-none focus:border-white focus-visible:outline-none focus-visible:border-white"
                 required
               />
             </div>
@@ -236,7 +236,7 @@ export function FinalCTASection() {
                 type="email" 
                 name="email"
                 placeholder="hello@example.com"
-                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 focus:outline-none focus:border-white transition-colors"
+                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 transition-colors duration-300 hover:border-white/40 focus:outline-none focus:border-white focus-visible:outline-none focus-visible:border-white"
                 required
               />
             </div>
@@ -257,7 +257,7 @@ export function FinalCTASection() {
                   tabIndex={0}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   onKeyDown={handleDropdownKeyDown}
-                  className="w-full flex items-center justify-between bg-transparent border-b border-white/20 pb-4 text-base md:text-lg focus:outline-none focus:border-white transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between bg-transparent border-b border-white/20 pb-4 text-base md:text-lg transition-colors duration-300 hover:border-white/40 focus:outline-none focus:border-white focus-visible:outline-none focus-visible:border-white cursor-pointer"
                 >
                   <span className={selectedProjectType ? "text-white font-medium" : "text-muted-foreground/50"}>
                     {selectedProjectType || "Select an option"}
@@ -312,7 +312,7 @@ export function FinalCTASection() {
                 type="text" 
                 name="budget"
                 placeholder="Select budget range"
-                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 focus:outline-none focus:border-white transition-colors"
+                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 transition-colors duration-300 hover:border-white/40 focus:outline-none focus:border-white focus-visible:outline-none focus-visible:border-white"
               />
             </div>
 
@@ -324,7 +324,7 @@ export function FinalCTASection() {
                 type="text" 
                 name="timeline"
                 placeholder="3-6 months"
-                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 focus:outline-none focus:border-white transition-colors"
+                className="w-full bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 transition-colors duration-300 hover:border-white/40 focus:outline-none focus:border-white focus-visible:outline-none focus-visible:border-white"
               />
             </div>
           </div>
@@ -337,7 +337,7 @@ export function FinalCTASection() {
             <textarea 
               name="message"
               placeholder="Tell us about the idea, problem, or product..."
-              className="w-full min-h-[64px] bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 focus:outline-none focus:border-white transition-colors resize-y"
+              className="w-full min-h-[64px] bg-transparent border-b border-white/20 pb-4 text-base md:text-lg text-white font-medium placeholder:font-normal placeholder:text-muted-foreground/50 transition-colors duration-300 hover:border-white/40 focus:outline-none focus:border-white focus-visible:outline-none focus-visible:border-white resize-y"
               required
             />
           </div>

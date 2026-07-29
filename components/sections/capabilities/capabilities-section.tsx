@@ -98,7 +98,7 @@ export function CapabilitiesSection() {
         <div className="w-full md:w-[45%] lg:w-[45%] shrink-0 relative">
           <div 
             ref={stickyRef}
-            className="md:sticky md:top-40 flex flex-col items-start"
+            className="md:sticky flex flex-col items-start md:top-[clamp(4rem,20vh,10rem)]"
           >
             <div className="gsap-cap-label text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-8 md:mb-10 opacity-0">
               WHAT WE DO

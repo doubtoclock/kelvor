@@ -97,7 +97,7 @@ export const ProcessStage = forwardRef<HTMLDivElement, ProcessStageProps>(
             {!isLast && (
               <div className="hidden lg:block absolute left-[8px] top-[4px] -translate-y-1/2 w-[calc(100%-8px)] h-[1px] pointer-events-none">
                 <div 
-                  className="process-connector w-0 h-full"
+                  className="process-connector w-full h-full origin-left scale-x-0"
                   style={{ backgroundColor: "rgba(255,255,255,0.15)" }}
                 />
               </div>
@@ -108,7 +108,7 @@ export const ProcessStage = forwardRef<HTMLDivElement, ProcessStageProps>(
           {!isLast && (
             <div className="lg:hidden absolute left-[3.5px] top-[8px] bottom-[-80px] w-[1px]">
               <div 
-                className="process-connector-mobile w-full h-0"
+                className="process-connector-mobile w-full h-full origin-top scale-y-0"
                 style={{ backgroundColor: "rgba(255,255,255,0.15)" }}
               />
             </div>

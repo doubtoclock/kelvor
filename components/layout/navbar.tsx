@@ -41,7 +41,7 @@ export function Navbar() {
 
       {/* Mobile Menu Trigger */}
       <div className="hero-nav-fade md:hidden">
-        <button className="text-[10px] font-semibold tracking-[0.15em] text-foreground uppercase hover:opacity-80 transition-opacity">
+        <button className="text-[10px] font-semibold tracking-[0.15em] text-foreground uppercase transition-all min-w-[44px] min-h-[44px] flex items-center justify-center p-2 -mr-2 hover:opacity-80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30 rounded-sm">
           Menu
         </button>
       </div>

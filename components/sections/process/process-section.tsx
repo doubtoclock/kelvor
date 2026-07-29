@@ -33,8 +33,8 @@ export function ProcessSection() {
       stageRefs.current.forEach((stage) => {
         if (!stage) return;
         gsap.set(stage, { opacity: 1, y: 0 });
-        gsap.set(stage.querySelector(".process-connector"), { width: "100%" });
-        gsap.set(stage.querySelector(".process-connector-mobile"), { height: "100%" });
+        gsap.set(stage.querySelector(".process-connector"), { scaleX: 1 });
+        gsap.set(stage.querySelector(".process-connector-mobile"), { scaleY: 1 });
         gsap.set(stage.querySelector(".process-halo"), { opacity: 1 });
       });
     });
@@ -92,15 +92,15 @@ export function ProcessSection() {
         if (i < stageRefs.current.length - 1) {
           if (connector) {
             tl.fromTo(connector,
-              { width: "0%" },
-              { width: "100%", duration: 0.45, ease: "none" },
+              { scaleX: 0 },
+              { scaleX: 1, duration: 0.45, ease: "none" },
               "-=0.1" // Start drawing right as the text finishes settling
             );
           }
           if (connectorMobile) {
             tl.fromTo(connectorMobile,
-              { height: "0%" },
-              { height: "100%", duration: 0.45, ease: "none" },
+              { scaleY: 0 },
+              { scaleY: 1, duration: 0.45, ease: "none" },
               "<" // Sync desktop and mobile
             );
           }
@@ -121,7 +121,7 @@ export function ProcessSection() {
       {/* Subtle Background Atmosphere */}
       <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
         {/* Soft charcoal glow behind the heading */}
-        <div className="absolute top-[-10%] left-0 w-full md:w-[70%] h-[70%] bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.015)_0%,transparent_60%)]" />
+        <div className="absolute top-[-10%] left-0 w-full md:w-[70%] h-[70%] bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.015)_0%,transparent_60%)] opacity-60 md:opacity-100" />
         
         {/* Darker edges toward sides and bottom */}
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_40%,rgba(7,7,9,0.3)_75%,rgba(7,7,9,0.8)_100%)]" />
@@ -147,7 +147,7 @@ export function ProcessSection() {
         <div className="relative w-full mt-8 lg:mt-12">
           
           {/* Atmospheric track depth */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] lg:w-[110%] h-[110%] lg:h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] blur-[80px] lg:blur-[120px] pointer-events-none z-0" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] lg:w-[110%] h-[110%] lg:h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] opacity-50 md:opacity-100 blur-[40px] md:blur-[80px] lg:blur-[120px] pointer-events-none z-0" />
 
           <div className="flex flex-col lg:flex-row relative z-10 w-full items-start justify-between gap-y-20 lg:gap-y-0">
             {PROCESS_DATA.map((stage, i) => (

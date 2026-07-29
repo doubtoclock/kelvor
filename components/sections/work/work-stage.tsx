@@ -1,15 +1,85 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, MotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
 import { PhoneDevice } from "./devices/phone-device";
+import { TabletDevice } from "./devices/tablet-device";
 import { MedioScene } from "./projects/medio-scene";
 import { CafeMitraScene } from "./projects/cafemitra-scene";
 import { BoostAIScene } from "./projects/boost-ai-scene";
+import { ProjectData } from "@/lib/constants/work-data";
 
 interface WorkStageProps {
   activeProject: -1 | 0 | 1 | 2 | 3;
+  onOpenGallery: (project: ProjectData) => void;
+  cinematicProgress: MotionValue<number>;
 }
 
-export function WorkStage({ activeProject }: WorkStageProps) {
+// Easing Functions
+const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+const linear = (t: number) => t;
+
+export function WorkStage({ activeProject, onOpenGallery, cinematicProgress }: WorkStageProps) {
+
+  // ----------------------------------------------------
+  // PERSISTENT PHONE TRANSFORMS (Medio -> CafeMitra -> Exit)
+  // ----------------------------------------------------
+  const phoneRanges = [0, 0.23, 0.43, 0.56, 0.76, 1];
+  const phoneEasing = [linear, easeInOut, linear, easeInOut, linear];
+
+  const phoneX = useTransform(
+    cinematicProgress, 
+    phoneRanges, 
+    ["18vw", "18vw", "50vw", "50vw", "48vw", "48vw"], 
+    { ease: phoneEasing }
+  );
+  
+  const phoneY = useTransform(
+    cinematicProgress, 
+    phoneRanges, 
+    [
+      "calc(55vh - 264px)", 
+      "calc(55vh - 264px)", 
+      "calc(59vh - 247.5px)", 
+      "calc(59vh - 247.5px)", 
+      "calc(59vh - 287.5px)", 
+      "calc(59vh - 287.5px)"
+    ], 
+    { ease: phoneEasing }
+  );
+
+  const phoneScale = useTransform(
+    cinematicProgress, 
+    phoneRanges, 
+    [1, 1, 0.75, 0.75, 0.73, 0.73], 
+    { ease: phoneEasing }
+  );
+
+  const phoneOpacity = useTransform(
+    cinematicProgress, 
+    [0, 0.56, 0.76, 1], 
+    [1, 1, 0, 0], 
+    { ease: [linear, easeInOut, linear] }
+  );
+
+  // ----------------------------------------------------
+  // PHONE SCREEN CONTENT CROSSFADE
+  // ----------------------------------------------------
+  const screenRanges = [0, 0.23, 0.43, 1];
+  const screenEasing = [linear, easeInOut, linear];
+
+  const medioScreenOpacity = useTransform(cinematicProgress, screenRanges, [1, 1, 0, 0], { ease: screenEasing });
+  const cafeScreenOpacity = useTransform(cinematicProgress, screenRanges, [0, 0, 1, 1], { ease: screenEasing });
+
+  // ----------------------------------------------------
+  // CAFEMITRA IPAD / POS REVEAL & EXIT
+  // ----------------------------------------------------
+  const ipadRanges = [0, 0.23, 0.43, 0.56, 0.76, 1];
+  const ipadEasing = [linear, easeInOut, linear, easeInOut, linear];
+
+  const ipadOpacity = useTransform(cinematicProgress, ipadRanges, [0, 0, 1, 1, 0, 0], { ease: ipadEasing });
+  const ipadX = useTransform(cinematicProgress, ipadRanges, ["40px", "40px", "0px", "0px", "60px", "60px"], { ease: ipadEasing });
+  const ipadScale = useTransform(cinematicProgress, ipadRanges, [1.176, 1.176, 1.2, 1.2, 1.176, 1.176], { ease: ipadEasing });
+
   return (
     <div className="sticky top-0 w-full h-[100svh] overflow-hidden">
       {/* Persistent Section Metadata */}
@@ -43,86 +113,82 @@ export function WorkStage({ activeProject }: WorkStageProps) {
         </div>
       </motion.div>
 
-      {/* Shared Persistent Phone */}
-      <div 
-        className="absolute inset-0 w-full h-full flex items-center justify-between px-6 lg:px-24 pointer-events-none z-20"
-      >
-        {/* Left Spacer for CafeMitra & Boost AI */}
-        {/* Removed on desktop since we now use absolute positioning */}
-
-        {/* Dynamic Wrapper */}
-        <div className={`absolute top-[340px] bottom-0 left-0 right-0 max-md:flex max-md:items-center max-md:justify-center max-md:overflow-hidden ${activeProject === 1 ? 'md:absolute md:right-[4vw] md:left-auto md:bottom-auto md:top-1/2 md:-translate-y-[35%] md:w-[52vw] md:max-w-[850px] md:h-[60vh]' : 'md:absolute md:inset-0 md:w-full md:h-full'} pointer-events-none z-20`}>
-          <motion.div 
-            layout
-            initial={false}
-            animate={
-              activeProject === -1 
-                ? { x: "-45vw", opacity: 0, scale: 0.97 }
-                : activeProject >= 2 
-                ? { x: "45vw", opacity: 0, scale: 0.97 }
-                : { x: 0, opacity: 1, scale: 1 }
-            }
-            transition={{
-              layout: { type: "tween", duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.08 },
-              x: { type: "tween", duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: activeProject >= 2 ? 0.15 : activeProject === -1 ? 0.0 : 0.08 },
-              opacity: { type: "tween", duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: activeProject >= 2 ? 0.15 : activeProject === -1 ? 0.0 : 0.08 },
-              scale: { type: "tween", duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: activeProject >= 2 ? 0.15 : activeProject === -1 ? 0.0 : 0.08 }
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-20">
+        
+        {/* CAFEMITRA IPAD / POS (Renders behind the phone in the DOM) */}
+        <div 
+          className="absolute top-0 left-0 origin-top-left z-10"
+          style={{ transform: "translate(50vw, calc(59vh - 247.5px)) scale(0.75)" }}
+        >
+          <motion.div
+            className="absolute z-10 shadow-2xl origin-center"
+            style={{ 
+              opacity: ipadOpacity, 
+              x: ipadX, 
+              left: "calc(61vw - 640px)", 
+              top: "100px", 
+              scale: ipadScale 
             }}
-            className={
-              activeProject <= 0 
-                ? "max-md:scale-[0.8] md:absolute md:left-[15vw] lg:left-[18vw] md:top-[52%] lg:top-[55%] md:-translate-y-[35%] lg:-translate-y-[40%] origin-center md:origin-top-left z-20 md:scale-[0.85] lg:scale-[1]"
-                : activeProject === 1
-                ? "max-md:absolute max-md:top-1/2 max-md:left-1/2 max-md:-translate-x-[65%] max-md:-translate-y-[45%] max-md:scale-[0.6] md:absolute md:left-[10%] lg:left-[12%] xl:left-[15%] md:top-1/2 md:-translate-y-1/2 md:scale-[0.65] lg:scale-[0.75] origin-left z-30"
-                : "max-md:absolute max-md:top-1/2 max-md:left-1/2 max-md:-translate-x-[65%] max-md:-translate-y-[45%] max-md:scale-[0.6] md:absolute md:-left-[20%] md:top-1/2 md:-translate-y-1/2 md:scale-[0.6] opacity-0 z-20"
-            }
           >
-            <PhoneDevice>
-              <AnimatePresence>
-                {activeProject <= 0 && (
-                  <motion.div
-                    key="medio-screen"
-                    className="absolute inset-0 w-full h-full origin-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
-                    exit={{ opacity: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
-                  >
-                    <Image 
-                      src="/projects/medio/medio.png"
-                      alt="Medio Mobile App"
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                  </motion.div>
-                )}
-                {activeProject === 1 && (
-                  <motion.div
-                    key="cafe-screen"
-                    className="absolute inset-0 w-full h-full origin-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
-                    exit={{ opacity: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
-                  >
-                    <Image 
-                      src="/projects/cafemitra/cafemitra-consumer-app.png"
-                      alt="CafeMitra Consumer App"
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </PhoneDevice>
+            <TabletDevice>
+              <Image 
+                src="/projects/cafemitra/cafe-erp.png"
+                alt="CafeMitra Admin ERP"
+                fill
+                className="object-cover"
+                priority
+              />
+            </TabletDevice>
           </motion.div>
         </div>
+
+        {/* SINGLE PERSISTENT PHONE SHELL */}
+        <motion.div 
+          className="absolute top-0 left-0 origin-top-left z-20"
+          style={{ 
+            x: phoneX, 
+            y: phoneY, 
+            scale: phoneScale, 
+            opacity: phoneOpacity 
+          }}
+        >
+          <PhoneDevice>
+            {/* Medio Screen Layer */}
+            <motion.div
+              className="absolute inset-0 w-full h-full origin-center"
+              style={{ opacity: medioScreenOpacity }}
+            >
+              <Image 
+                src="/projects/medio/medio.png"
+                alt="Medio Mobile App"
+                fill
+                className="object-cover"
+                priority
+              />
+            </motion.div>
+
+            {/* CafeMitra Screen Layer */}
+            <motion.div
+              className="absolute inset-0 w-full h-full origin-center"
+              style={{ opacity: cafeScreenOpacity }}
+            >
+              <Image 
+                src="/projects/cafemitra/cafemitra-consumer-app.png"
+                alt="CafeMitra Consumer App"
+                fill
+                className="object-cover"
+                priority
+              />
+            </motion.div>
+          </PhoneDevice>
+        </motion.div>
+
       </div>
 
-      {/* Project Scenes */}
       <AnimatePresence>
-        {activeProject === 0 && <MedioScene key="0" />}
-        {activeProject === 1 && <CafeMitraScene key="1" />}
-        {activeProject === 2 && <BoostAIScene key="2" />}
+        {activeProject === 0 && <MedioScene key="0" onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />}
+        {activeProject === 1 && <CafeMitraScene key="1" onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />}
+        {activeProject === 2 && <BoostAIScene key="2" onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />}
       </AnimatePresence>
     </div>
   );
