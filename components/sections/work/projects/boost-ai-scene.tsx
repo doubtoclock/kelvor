@@ -11,30 +11,20 @@ interface BoostAISceneProps {
 }
 
 export const BoostAIScene = forwardRef<HTMLDivElement, BoostAISceneProps>(({ onOpenGallery, cinematicProgress, ...props }, ref) => {
-  const customEase = [0.22, 1, 0.36, 1] as const;
   const projectData = PROJECTS.find(p => p.internalId === "boostai")!;
 
-  const itemVariants = {
-    enter: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } },
-    exit: { opacity: 0, y: -40, transition: { duration: 0.6, ease: customEase } }
-  };
-
-  const containerVariants = {
-    enter: {},
-    visible: { transition: { staggerChildren: 0.1, delayChildren: 0.55 } },
-    exit: { transition: { staggerChildren: 0.05, staggerDirection: -1, delayChildren: 0 } }
-  };
+  const textOpacity = useTransform(cinematicProgress, [0.65, 0.76], [0, 1]);
+  const textY = useTransform(cinematicProgress, [0.65, 0.76], [40, 0]);
+  const pointerEvents = useTransform(textOpacity, (v) => v > 0.1 ? "auto" : "none");
 
   const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
   // Boost Device Entry
-  const boostOpacity = useTransform(cinematicProgress, [0.69, 0.84], [0, 1], { ease: easeOut });
-  const boostY = useTransform(cinematicProgress, [0.69, 0.84], ["40px", "0px"], { ease: easeOut });
-  const boostScale = useTransform(cinematicProgress, [0.69, 0.84], [0.985, 1], { ease: easeOut });
+  const boostOpacity = useTransform(cinematicProgress, [0.69, 0.84], [0, 1]);
+  const boostY = useTransform(cinematicProgress, [0.69, 0.84], ["40px", "0px"]);
+  const boostScale = useTransform(cinematicProgress, [0.69, 0.84], [0.985, 1]);
 
-  // Boost Text Entry
-  const boostTextOpacity = useTransform(cinematicProgress, [0.76, 0.86], [0, 1]);
+
 
   return (
     <motion.div 
@@ -45,29 +35,22 @@ export const BoostAIScene = forwardRef<HTMLDivElement, BoostAISceneProps>(({ onO
       
       {/* LEFT: Typography (38-40% Territory) */}
       <motion.div 
-        style={{ opacity: boostTextOpacity }}
+        style={{ opacity: textOpacity, y: textY, pointerEvents: pointerEvents as any }}
         className="absolute md:relative top-0 left-0 w-full lg:w-[40vw] flex flex-col items-start justify-start lg:justify-center pt-[100px] lg:pt-0 px-6 lg:px-0 lg:pl-[8vw] xl:pl-[10vw] h-[340px] md:h-full z-30"
-        initial="enter"
-        animate="visible"
-        exit="exit"
-        variants={containerVariants}
       >
-        <motion.h2 
-          variants={itemVariants}
+        <h2 
           className="text-[3.5rem] md:text-6xl lg:text-[5rem] xl:text-[6.5rem] leading-none font-bold tracking-[-0.04em] text-foreground mb-4 md:mb-12 whitespace-nowrap"
         >
           {projectData.title}
-        </motion.h2>
+        </h2>
         
-        <motion.p 
-          variants={itemVariants}
+        <p 
           className="text-xl md:text-3xl lg:text-4xl text-muted-foreground mb-8 md:mb-[60px] leading-snug font-light max-w-lg text-left"
         >
           {projectData.tagline}
-        </motion.p>
+        </p>
 
-        <motion.div 
-          variants={itemVariants}
+        <div 
           className="flex flex-col items-start gap-6"
         >
           <div className="text-[10px] md:text-xs font-semibold tracking-[0.3em] text-foreground/60 uppercase max-w-[260px] lg:max-w-[280px] leading-relaxed">
@@ -80,7 +63,7 @@ export const BoostAIScene = forwardRef<HTMLDivElement, BoostAISceneProps>(({ onO
             VIEW PROJECT
             <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
           </button>
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* RIGHT/LOWER-RIGHT: Oversized Product Visual anchored at 42vw */}

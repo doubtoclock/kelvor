@@ -80,8 +80,8 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
   // ----------------------------------------------------
   
   // Medio Text (Hold 0.00-0.18 -> Exit by 0.24)
-  const medioTextOpacity = useTransform(mobileProgress, [0, 0.05, 0.18, 0.24], [0, 1, 1, 0]);
-  const medioTextY = useTransform(mobileProgress, [0, 0.05, 0.18, 0.24], [16, 0, 0, -16]);
+  const medioTextOpacity = useTransform(mobileProgress, [0, 0.18, 0.24], [1, 1, 0]);
+  const medioTextY = useTransform(mobileProgress, [0, 0.18, 0.24], [0, 0, -16]);
 
   // CafeMitra Text (Enter 0.30-0.34 -> Hold 0.34-0.58 -> Exit by 0.64)
   const cafeTextOpacity = useTransform(mobileProgress, [0.24, 0.30, 0.34, 0.58, 0.64], [0, 0, 1, 1, 0]);
@@ -96,17 +96,17 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
   // ----------------------------------------------------
   
   // Phone Wrapper (Medio 0.00-0.18 -> CafeMitra 0.34-0.64 -> Exit by 0.70)
-  const phoneRanges = [0, 0.05, 0.18, 0.34, 0.64, 0.70];
-  const phoneEasing = [linear, easeInOut, easeInOut, easeInOut, linear];
+  const phoneRanges = [0, 0.18, 0.34, 0.64, 0.70];
+  const phoneEasing = [easeInOut, easeInOut, easeInOut, linear];
   
-  const phoneOpacity = useTransform(mobileProgress, phoneRanges, [0, 1, 1, 1, 1, 0], { ease: phoneEasing });
-  const phoneX = useTransform(mobileProgress, phoneRanges, [0, 0, 0, -45, -45, -45], { ease: phoneEasing });
-  const phoneY = useTransform(mobileProgress, phoneRanges, [50, 0, 0, 60, 60, 0], { ease: phoneEasing });
-  const phoneScale = useTransform(mobileProgress, phoneRanges, [0.96, 1, 1, 0.85, 0.85, 0.80], { ease: phoneEasing });
+  const phoneOpacity = useTransform(mobileProgress, phoneRanges, [1, 1, 1, 1, 0], { ease: phoneEasing });
+  const phoneX = useTransform(mobileProgress, phoneRanges, [0, 0, -45, -45, -45], { ease: phoneEasing });
+  const phoneY = useTransform(mobileProgress, phoneRanges, [0, 0, 60, 60, 0], { ease: phoneEasing });
+  const phoneScale = useTransform(mobileProgress, phoneRanges, [1, 1, 0.85, 0.85, 0.80], { ease: phoneEasing });
 
   // Phone Screen Crossfade (0.24 to 0.30)
-  const medioScreenOpacity = useTransform(mobileProgress, [0.24, 0.30], [1, 0]);
-  const cafeScreenOpacity = useTransform(mobileProgress, [0.24, 0.30], [0, 1]);
+  const medioScreenOpacity = useTransform(mobileProgress, [0, 0.24, 0.30], [1, 1, 0]);
+  const cafeScreenOpacity = useTransform(mobileProgress, [0, 0.24, 0.30], [0, 0, 1]);
 
   // Tablet Reveal (CafeMitra POS) (0.24 to 0.34 -> Hold 0.34-0.64 -> Exit by 0.70)
   const tabletRanges = [0.24, 0.34, 0.64, 0.70];
@@ -116,10 +116,10 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
   const tabletScale = useTransform(mobileProgress, tabletRanges, [0.96, 1, 1, 0.94]);
 
   // Macbook (Boost AI) (Enter 0.70 to 0.76)
-  const macbookRanges = [0.70, 0.76];
-  const macbookOpacity = useTransform(mobileProgress, macbookRanges, [0, 1]);
-  const macbookY = useTransform(mobileProgress, macbookRanges, [40, 0]);
-  const macbookScale = useTransform(mobileProgress, macbookRanges, [0.96, 1]);
+  const macbookRanges = [0.70, 0.76, 1.0];
+  const macbookOpacity = useTransform(mobileProgress, macbookRanges, [0, 1, 1]);
+  const macbookY = useTransform(mobileProgress, macbookRanges, [40, 0, 0]);
+  const macbookScale = useTransform(mobileProgress, macbookRanges, [0.96, 1, 1]);
 
   // Helper for applying reduced motion
   const safeY = (val: MotionValue<number>) => shouldReduceMotion ? 0 : val;
@@ -146,10 +146,10 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
   );
 
   return (
-    <div className="sticky top-0 w-full h-[100svh] overflow-hidden bg-background">
+    <div className="sticky top-0 w-full h-[680px] max-h-[100svh] overflow-hidden bg-background">
       
       {/* PERSISTENT TOP HEADER */}
-      <div className="absolute top-6 left-6 z-50 pointer-events-none flex flex-col gap-1">
+      <div className="absolute top-5 left-5 z-50 pointer-events-none flex flex-col gap-1">
         <h2 className="text-xs font-semibold tracking-[0.25em] text-muted-foreground uppercase leading-none">
           SELECTED WORK
         </h2>
@@ -176,22 +176,22 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
       </div>
 
       {/* TEXT CONTAINERS */}
-      <div className="absolute top-[110px] left-0 w-full px-6 z-40">
+      <div className="absolute top-[88px] left-0 w-full px-5 z-40">
         
         {/* MEDIO TEXT */}
         {visibility.medioText && (
           <motion.div 
             style={{ opacity: medioTextOpacity, y: safeY(medioTextY), pointerEvents: medioPointer as any }}
-            className="absolute top-0 left-0 w-full px-6 flex flex-col items-start"
+            className="absolute top-0 left-0 w-full px-5 flex flex-col items-start"
           >
             <div className="flex flex-col items-start">
-              <h3 className="text-[clamp(2.5rem,10vw,3.5rem)] leading-none font-bold tracking-[-0.04em] text-foreground mb-4">
+              <h3 className="text-[clamp(2.5rem,10vw,3.5rem)] leading-none font-bold tracking-[-0.04em] text-foreground mb-3">
                 {medioData.title}
               </h3>
-              <p className="text-lg text-muted-foreground mb-6 leading-snug font-light whitespace-pre-line max-w-[280px]">
+              <p className="text-lg text-muted-foreground mb-3 leading-snug font-light whitespace-pre-line max-w-[280px]">
                 {medioData.tagline}
               </p>
-              <div className="text-[9px] font-semibold tracking-[0.3em] text-foreground/60 uppercase leading-relaxed mb-6">
+              <div className="text-[9px] font-semibold tracking-[0.3em] text-foreground/60 uppercase leading-relaxed mb-4">
                 {medioData.meta}
               </div>
               <ProjectCTA project={medioData} />
@@ -203,16 +203,16 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
         {visibility.cafeText && (
           <motion.div 
             style={{ opacity: cafeTextOpacity, y: safeY(cafeTextY), pointerEvents: cafePointer as any }}
-            className="absolute top-0 left-0 w-full px-6 flex flex-col items-start"
+            className="absolute top-0 left-0 w-full px-5 flex flex-col items-start"
           >
             <div className="flex flex-col items-start">
-              <h3 className="text-[clamp(2.5rem,10vw,3.5rem)] leading-none font-bold tracking-[-0.04em] text-foreground mb-4 whitespace-nowrap">
+              <h3 className="text-[clamp(2.5rem,10vw,3.5rem)] leading-none font-bold tracking-[-0.04em] text-foreground mb-3 whitespace-nowrap">
                 {cafeData.title}
               </h3>
-              <p className="text-lg text-muted-foreground mb-6 leading-snug font-light whitespace-pre-line max-w-[280px]">
+              <p className="text-lg text-muted-foreground mb-3 leading-snug font-light whitespace-pre-line max-w-[280px]">
                 {cafeData.tagline}
               </p>
-              <div className="text-[9px] font-semibold tracking-[0.3em] text-foreground/60 uppercase leading-relaxed mb-6">
+              <div className="text-[9px] font-semibold tracking-[0.3em] text-foreground/60 uppercase leading-relaxed mb-4">
                 {cafeData.meta}
               </div>
               <ProjectCTA project={cafeData} />
@@ -224,16 +224,16 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
         {visibility.boostText && (
           <motion.div 
             style={{ opacity: boostTextOpacity, y: safeY(boostTextY), pointerEvents: boostPointer as any }}
-            className="absolute top-0 left-0 w-full px-6 flex flex-col items-start"
+            className="absolute top-0 left-0 w-full px-5 flex flex-col items-start"
           >
             <div className="flex flex-col items-start">
-              <h3 className="text-[clamp(2.5rem,10vw,3.5rem)] leading-none font-bold tracking-[-0.04em] text-foreground mb-4">
+              <h3 className="text-[clamp(2.5rem,10vw,3.5rem)] leading-none font-bold tracking-[-0.04em] text-foreground mb-3">
                 {boostData.title}
               </h3>
-              <p className="text-lg text-muted-foreground mb-6 leading-snug font-light whitespace-pre-line max-w-[280px]">
+              <p className="text-lg text-muted-foreground mb-3 leading-snug font-light whitespace-pre-line max-w-[280px]">
                 {boostData.tagline}
               </p>
-              <div className="text-[9px] font-semibold tracking-[0.3em] text-foreground/60 uppercase leading-relaxed mb-6">
+              <div className="text-[9px] font-semibold tracking-[0.3em] text-foreground/60 uppercase leading-relaxed mb-4">
                 {boostData.meta}
               </div>
               <ProjectCTA project={boostData} />
@@ -247,7 +247,7 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
         
         {/* TABLET DEVICE (CAFEMITRA POS) - Renders behind phone */}
         {visibility.tablet && (
-          <div className="absolute top-[46svh] left-1/2 -translate-x-1/2 z-10 flex justify-center">
+          <div className="absolute top-[340px] left-1/2 -translate-x-1/2 z-10 flex justify-center">
             <motion.div
               style={{ opacity: tabletOpacity, x: tabletX, y: safeY(tabletY), scale: safeScale(tabletScale) }}
               className="origin-top"
@@ -269,7 +269,7 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
 
         {/* PERSISTENT PHONE DEVICE (MEDIO -> CAFEMITRA) */}
         {(visibility.medioScreen || visibility.cafeScreen) && (
-          <div className="absolute top-[42svh] left-1/2 -translate-x-1/2 z-20 flex justify-center">
+          <div className="absolute top-[320px] left-1/2 -translate-x-1/2 z-20 flex justify-center">
             <motion.div
               style={{ opacity: phoneOpacity, x: phoneX, y: safeY(phoneY), scale: safeScale(phoneScale) }}
               className="origin-top shadow-2xl"
@@ -313,7 +313,7 @@ export function MobileWorkStage({ onOpenGallery, mobileProgress }: MobileWorkSta
 
         {/* MACBOOK DEVICE (BOOST AI) */}
         {visibility.macbook && (
-          <div className="absolute top-[54svh] left-1/2 -translate-x-1/2 z-30 flex justify-center">
+          <div className="absolute top-[360px] left-1/2 -translate-x-1/2 z-30 flex justify-center">
             <motion.div
               style={{ opacity: macbookOpacity, y: safeY(macbookY), scale: safeScale(macbookScale) }}
               className="origin-top"

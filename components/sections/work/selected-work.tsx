@@ -15,6 +15,30 @@ export function SelectedWorkSection() {
   const [activeProject, setActiveProject] = useState<-1 | 0 | 1 | 2 | 3>(-1);
   const [activeGalleryProject, setActiveGalleryProject] = useState<ProjectData | null>(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isInteracting = useRef(false);
+
+  useEffect(() => {
+    let wheelTimeout: NodeJS.Timeout;
+    
+    const handleInteractStart = () => { isInteracting.current = true; };
+    const handleInteractEnd = () => { isInteracting.current = false; };
+    const handleWheel = () => {
+      isInteracting.current = true;
+      clearTimeout(wheelTimeout);
+      wheelTimeout = setTimeout(() => { isInteracting.current = false; }, 200);
+    };
+
+    window.addEventListener("touchstart", handleInteractStart, { passive: true });
+    window.addEventListener("touchend", handleInteractEnd, { passive: true });
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    
+    return () => {
+      window.removeEventListener("touchstart", handleInteractStart);
+      window.removeEventListener("touchend", handleInteractEnd);
+      window.removeEventListener("wheel", handleWheel);
+      clearTimeout(wheelTimeout);
+    };
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -25,57 +49,41 @@ export function SelectedWorkSection() {
   const animRef = useRef<AnimationPlaybackControls | null>(null);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // 7. Cancel previous follow animation
-    if (animRef.current) {
-      animRef.current.stop();
-      animRef.current = null;
-    }
+    // 1. Direct 1:1 mapping (removes the "spring" effect that causes input lag)
+    cinematicProgress.set(latest);
 
-    const current = cinematicProgress.get();
-    const delta = Math.abs(latest - current);
-
-    // 11. Sticky Section End Safeguard
-    if (latest >= 0.97 || latest <= 0.03) {
-      if (delta >= 0.08) {
-        cinematicProgress.set(latest);
-      } else {
-        animRef.current = animate(cinematicProgress, latest, { type: "tween", duration: 0.08, ease: "easeOut" });
-      }
-      return;
-    }
-
-    if (delta >= 0.20) {
-      // 6. Extreme Jump (e.g. scrollbar drag) -> Snap instantly
-      cinematicProgress.set(latest);
-    } else if (delta >= 0.08) {
-      // 5. Large Delta -> Aggressive Catch-up Tween
-      animRef.current = animate(cinematicProgress, latest, { type: "tween", duration: 0.12, ease: "easeOut" });
-    } else if (delta >= 0.025) {
-      // 4. Medium Delta -> Responsive catch-up spring
-      animRef.current = animate(cinematicProgress, latest, { type: "spring", stiffness: 220, damping: 32, mass: 0.3 });
-    } else {
-      // 3. Normal Scrolling -> Cinematic spring
-      animRef.current = animate(cinematicProgress, latest, { type: "spring", stiffness: 90, damping: 28, mass: 0.35, restDelta: 0.001 });
-    }
-
-    // 16. Auto-complete transitions if user stops scrolling mid-animation
+    // 2. Auto-complete transitions if user stops scrolling mid-animation
     if ((window as any).scrollTimeout) {
       clearTimeout((window as any).scrollTimeout);
     }
 
     (window as any).scrollTimeout = setTimeout(() => {
-      // Do not run desktop auto-snap logic on mobile
-      if (!isDesktop) return;
+      // Do not auto-snap if user is physically interacting (holding touch or actively wheeling)
+      if (isInteracting.current) return;
 
-      // Check if we are parked inside Transition 1 (Medio -> CafeMitra)
+      if (!isDesktop) {
+        // Mobile auto-snap logic (Target points: 0.0, 0.5, 1.0)
+        if (latest > 0.15 && latest < 0.35) {
+          const targetProgress = latest < 0.25 ? 0.0 : 0.50;
+          const containerTop = containerRef.current?.offsetTop || 0;
+          const scrollDistance = (containerRef.current?.offsetHeight || 0) - window.innerHeight;
+          window.scrollTo({ top: containerTop + (targetProgress * scrollDistance), behavior: "smooth" });
+        } else if (latest > 0.65 && latest < 0.85) {
+          const targetProgress = latest < 0.75 ? 0.50 : 1.0;
+          const containerTop = containerRef.current?.offsetTop || 0;
+          const scrollDistance = (containerRef.current?.offsetHeight || 0) - window.innerHeight;
+          window.scrollTo({ top: containerTop + (targetProgress * scrollDistance), behavior: "smooth" });
+        }
+        return;
+      }
+
+      // Desktop auto-snap logic
       if (latest > 0.18 && latest < 0.48) {
         const targetProgress = latest < 0.33 ? 0.10 : 0.50;
         const containerTop = containerRef.current?.offsetTop || 0;
         const scrollDistance = (containerRef.current?.offsetHeight || 0) - window.innerHeight;
         window.scrollTo({ top: containerTop + (targetProgress * scrollDistance), behavior: "smooth" });
-      } 
-      // Check if we are parked inside Transition 2 (CafeMitra -> BoostAI)
-      else if (latest > 0.51 && latest < 0.81) {
+      } else if (latest > 0.51 && latest < 0.81) {
         const targetProgress = latest < 0.66 ? 0.50 : 0.90;
         const containerTop = containerRef.current?.offsetTop || 0;
         const scrollDistance = (containerRef.current?.offsetHeight || 0) - window.innerHeight;

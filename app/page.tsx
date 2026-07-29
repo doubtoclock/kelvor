@@ -8,6 +8,7 @@ import { TeamSection } from "@/components/sections/about/team-section";
 import { FinalCTASection } from "@/components/sections/final-cta/final-cta-section";
 import Footer from "@/components/layout/footer";
 import { AmbientBackground } from "@/components/ui/ambient-background";
+import { Loader } from "@/components/ui/loader";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <AmbientBackground />
 
       <main className="min-h-screen relative z-[1] selection:bg-foreground selection:text-background">
+        <Loader />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -27,6 +27,7 @@ export function HeroOrchestrator({ children }: { children: React.ReactNode }) {
           end: "+=50%",
           scrub: true,
           pin: true,
+          snap: { snapTo: [0, 1], delay: 0.1, duration: 0.3 }
         }
       });
       
@@ -46,6 +47,7 @@ export function HeroOrchestrator({ children }: { children: React.ReactNode }) {
           scrub: 1,
           pin: true,
           refreshPriority: 1,
+          snap: { snapTo: [0, 1], delay: 0.1, duration: 0.3 }
         }
       });
 
@@ -67,6 +69,7 @@ export function HeroOrchestrator({ children }: { children: React.ReactNode }) {
           scrub: 1,
           pin: true,
           refreshPriority: 1,
+          snap: { snapTo: [0, 1], delay: 0.1, duration: 0.3 }
         }
       });
 
@@ -88,6 +91,7 @@ export function HeroOrchestrator({ children }: { children: React.ReactNode }) {
           scrub: 1,
           pin: true,
           refreshPriority: 1,
+          snap: { snapTo: [0, 1], delay: 0.1, duration: 0.3 }
         }
       });
 

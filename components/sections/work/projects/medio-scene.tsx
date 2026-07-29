@@ -9,10 +9,11 @@ interface MedioSceneProps {
 }
 
 export const MedioScene = forwardRef<HTMLDivElement, MedioSceneProps>(({ onOpenGallery, cinematicProgress, ...props }, ref) => {
-  const customEase = [0.22, 1, 0.36, 1] as const;
   const projectData = PROJECTS.find(p => p.internalId === "medio")!;
 
-  const textOpacity = useTransform(cinematicProgress, [0.23, 0.43], [1, 0]);
+  const textOpacity = useTransform(cinematicProgress, [0, 0.15, 0.30], [1, 1, 0]);
+  const textY = useTransform(cinematicProgress, [0, 0.15, 0.30], [0, 0, -40]);
+  const pointerEvents = useTransform(textOpacity, (v) => v > 0.1 ? "auto" : "none");
 
   return (
     <motion.div 
@@ -26,15 +27,10 @@ export const MedioScene = forwardRef<HTMLDivElement, MedioSceneProps>(({ onOpenG
 
       {/* RIGHT: Typography */}
       <motion.div 
-        style={{ opacity: textOpacity }}
+        style={{ opacity: textOpacity, y: textY, pointerEvents: pointerEvents as any }}
         className="absolute top-0 left-0 max-md:w-full md:right-[6vw] lg:right-[8vw] md:left-auto md:top-1/2 md:-translate-y-1/2 md:w-[40vw] flex flex-col items-start justify-start pt-[100px] md:pt-0 px-6 md:px-0 h-[340px] md:h-auto z-30"
       >
-        <motion.div 
-          className="w-full flex flex-col items-start"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase, delay: 0.1 } }}
-          exit={{ opacity: 0, y: -40, transition: { duration: 0.6, ease: customEase, delay: 0 } }}
-        >
+        <div className="w-full flex flex-col items-start">
           <h2 className="text-[3.5rem] md:text-7xl lg:text-[10rem] leading-none font-bold tracking-[-0.04em] text-foreground mb-4 md:mb-12">
           {projectData.title}
         </h2>
@@ -55,7 +51,7 @@ export const MedioScene = forwardRef<HTMLDivElement, MedioSceneProps>(({ onOpenG
               <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </button>
           </div>
-        </motion.div>
+        </div>
       </motion.div>
 
     </motion.div>

@@ -9,10 +9,11 @@ interface CafeMitraSceneProps {
 }
 
 export const CafeMitraScene = forwardRef<HTMLDivElement, CafeMitraSceneProps>(({ onOpenGallery, cinematicProgress, ...props }, ref) => {
-  const customEase = [0.22, 1, 0.36, 1] as const;
   const projectData = PROJECTS.find(p => p.internalId === "cafemitra")!;
 
-  const textOpacity = useTransform(cinematicProgress, [0.56, 0.76], [1, 0]);
+  const textOpacity = useTransform(cinematicProgress, [0.20, 0.33, 0.60, 0.70], [0, 1, 1, 0]);
+  const textY = useTransform(cinematicProgress, [0.20, 0.33, 0.60, 0.70], [40, 0, 0, -40]);
+  const pointerEvents = useTransform(textOpacity, (v) => v > 0.1 ? "auto" : "none");
 
   return (
     <motion.div 
@@ -23,14 +24,11 @@ export const CafeMitraScene = forwardRef<HTMLDivElement, CafeMitraSceneProps>(({
       
       {/* LEFT: Typography */}
       <motion.div 
-        style={{ opacity: textOpacity }}
+        style={{ opacity: textOpacity, y: textY, pointerEvents: pointerEvents as any }}
         className="absolute top-0 left-0 max-md:w-full md:left-[6vw] lg:left-[8vw] md:top-1/2 md:-translate-y-[45%] md:w-[40vw] h-[340px] md:h-auto z-30"
       >
-        <motion.div 
+        <div 
           className="w-full h-full flex flex-col items-start justify-start pt-[100px] md:pt-0 px-6 md:px-0"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase, delay: 0.1 } }}
-          exit={{ opacity: 0, y: -40, transition: { duration: 0.6, ease: customEase, delay: 0 } }}
         >
           <h2 className="text-[2.5rem] md:text-7xl lg:text-[6rem] xl:text-[7rem] leading-none font-bold tracking-[-0.04em] text-foreground mb-4 md:mb-12 whitespace-nowrap">
             {projectData.title}
@@ -52,7 +50,7 @@ export const CafeMitraScene = forwardRef<HTMLDivElement, CafeMitraSceneProps>(({
               <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </button>
           </div>
-        </motion.div>
+        </div>
       </motion.div>
 
 

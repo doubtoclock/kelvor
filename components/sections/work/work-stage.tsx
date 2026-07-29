@@ -29,8 +29,7 @@ export function WorkStage({ activeProject, onOpenGallery, cinematicProgress }: W
   const phoneX = useTransform(
     cinematicProgress, 
     phoneRanges, 
-    ["18vw", "18vw", "50vw", "50vw", "48vw", "48vw"], 
-    { ease: phoneEasing }
+    ["18vw", "18vw", "50vw", "50vw", "48vw", "48vw"]
   );
   
   const phoneY = useTransform(
@@ -43,22 +42,19 @@ export function WorkStage({ activeProject, onOpenGallery, cinematicProgress }: W
       "calc(59vh - 247.5px)", 
       "calc(59vh - 287.5px)", 
       "calc(59vh - 287.5px)"
-    ], 
-    { ease: phoneEasing }
+    ]
   );
 
   const phoneScale = useTransform(
     cinematicProgress, 
     phoneRanges, 
-    [1, 1, 0.75, 0.75, 0.73, 0.73], 
-    { ease: phoneEasing }
+    [1, 1, 0.75, 0.75, 0.73, 0.73]
   );
 
   const phoneOpacity = useTransform(
     cinematicProgress, 
     [0, 0.56, 0.76, 1], 
-    [1, 1, 0, 0], 
-    { ease: [linear, easeInOut, linear] }
+    [1, 1, 0, 0]
   );
 
   // ----------------------------------------------------
@@ -67,8 +63,8 @@ export function WorkStage({ activeProject, onOpenGallery, cinematicProgress }: W
   const screenRanges = [0, 0.23, 0.43, 1];
   const screenEasing = [linear, easeInOut, linear];
 
-  const medioScreenOpacity = useTransform(cinematicProgress, screenRanges, [1, 1, 0, 0], { ease: screenEasing });
-  const cafeScreenOpacity = useTransform(cinematicProgress, screenRanges, [0, 0, 1, 1], { ease: screenEasing });
+  const medioScreenOpacity = useTransform(cinematicProgress, screenRanges, [1, 1, 0, 0]);
+  const cafeScreenOpacity = useTransform(cinematicProgress, screenRanges, [0, 0, 1, 1]);
 
   // ----------------------------------------------------
   // CAFEMITRA IPAD / POS REVEAL & EXIT
@@ -76,9 +72,9 @@ export function WorkStage({ activeProject, onOpenGallery, cinematicProgress }: W
   const ipadRanges = [0, 0.23, 0.43, 0.56, 0.76, 1];
   const ipadEasing = [linear, easeInOut, linear, easeInOut, linear];
 
-  const ipadOpacity = useTransform(cinematicProgress, ipadRanges, [0, 0, 1, 1, 0, 0], { ease: ipadEasing });
-  const ipadX = useTransform(cinematicProgress, ipadRanges, ["40px", "40px", "0px", "0px", "60px", "60px"], { ease: ipadEasing });
-  const ipadScale = useTransform(cinematicProgress, ipadRanges, [1.176, 1.176, 1.2, 1.2, 1.176, 1.176], { ease: ipadEasing });
+  const ipadOpacity = useTransform(cinematicProgress, ipadRanges, [0, 0, 1, 1, 0, 0]);
+  const ipadX = useTransform(cinematicProgress, ipadRanges, ["40px", "40px", "0px", "0px", "60px", "60px"]);
+  const ipadScale = useTransform(cinematicProgress, ipadRanges, [1.176, 1.176, 1.2, 1.2, 1.176, 1.176]);
 
   return (
     <div className="sticky top-0 w-full h-[100svh] overflow-hidden">
@@ -185,11 +181,11 @@ export function WorkStage({ activeProject, onOpenGallery, cinematicProgress }: W
 
       </div>
 
-      <AnimatePresence>
-        {activeProject === 0 && <MedioScene key="0" onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />}
-        {activeProject === 1 && <CafeMitraScene key="1" onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />}
-        {activeProject === 2 && <BoostAIScene key="2" onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />}
-      </AnimatePresence>
+      <div className="absolute inset-0 pointer-events-none">
+        <MedioScene onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />
+        <CafeMitraScene onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />
+        <BoostAIScene onOpenGallery={onOpenGallery} cinematicProgress={cinematicProgress} />
+      </div>
     </div>
   );
 }
