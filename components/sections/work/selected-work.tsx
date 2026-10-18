@@ -1218,6 +1218,7 @@ export function SelectedWorkSection() {
       <ProjectGallery
         project={activeGalleryProject}
         onClose={() => setActiveGalleryProject(null)}
+        onSelectProject={(proj) => setActiveGalleryProject(proj)}
       />
     </section>
   );

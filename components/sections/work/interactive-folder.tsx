@@ -101,7 +101,7 @@ export const DOSSIER_CARDS: DossierCard[] = [
   },
   {
     id: "card-cafemitra-erp",
-    projectId: "cafemitra",
+    projectId: "cafemitra-erp",
     title: "CAFEMITRA ERP",
     category: "CLOUD PLATFORM",
     image: "/projects/cafemitra/cafe-erp.png",
