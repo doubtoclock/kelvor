@@ -1,19 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Sora, Manrope, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0A0A0C",
+  themeColor: "#102D25",
 };
 
 export const metadata: Metadata = {
@@ -55,9 +63,30 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${sora.variable} ${manrope.variable} ${ibmPlexMono.variable} antialiased bg-background text-foreground`}
         suppressHydrationWarning
       >
+        {/* Enforce reload always starts at the Hero section (top: 0) */}
+        <script
+          id="scroll-restoration-reset"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  if ('scrollRestoration' in history) {
+                    history.scrollRestoration = 'manual';
+                  }
+                  if (window.location.hash) {
+                    history.replaceState(null, '', window.location.pathname + window.location.search);
+                  }
+                  window.scrollTo(0, 0);
+                  if (document.documentElement) document.documentElement.scrollTop = 0;
+                  if (document.body) document.body.scrollTop = 0;
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

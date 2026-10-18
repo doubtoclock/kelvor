@@ -4,16 +4,13 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ProcessStage } from "./process-stage";
-import { Search, FileText, PenTool, Code2, Rocket } from "lucide-react";
-
-const PROCESS_DATA = [
-  { id: "01", title: "Discover", description: "Understand the problem, users, and opportunity.", icon: Search },
-  { id: "02", title: "Define", description: "Turn insights into a clear product direction.", icon: FileText },
-  { id: "03", title: "Design", description: "Shape the experience, interface, and interactions.", icon: PenTool },
-  { id: "04", title: "Build", description: "Engineer the product with production-ready systems.", icon: Code2 },
-  { id: "05", title: "Launch", description: "Ship, refine, and prepare for what comes next.", icon: Rocket }
-];
+import {
+  PROCESS_STAGES,
+  ProcessStationaryCanvas,
+  ProcessTextPanel,
+  ProcessOpeningHeading,
+  ProcessMobileStage,
+} from "./process-stage";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -21,149 +18,276 @@ if (typeof window !== "undefined") {
 
 export function ProcessSection() {
   const containerRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const contentPageRef = useRef<HTMLDivElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
+  // Stationary Image Canvas Refs (Layer A)
+  const discoverImgRef = useRef<HTMLDivElement>(null);
+  const defineImgRef = useRef<HTMLDivElement>(null);
+  const designImgRef = useRef<HTMLDivElement>(null);
+  const buildImgRef = useRef<HTMLDivElement>(null);
+  const launchImgRef = useRef<HTMLDivElement>(null);
 
-    // REDUCED MOTION
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(headerRef.current, { opacity: 1, y: 0 });
-      stageRefs.current.forEach((stage) => {
-        if (!stage) return;
-        gsap.set(stage, { opacity: 1, y: 0 });
-        gsap.set(stage.querySelector(".process-connector"), { scaleX: 1 });
-        gsap.set(stage.querySelector(".process-connector-mobile"), { scaleY: 1 });
-        gsap.set(stage.querySelector(".process-halo"), { opacity: 1 });
-      });
-    });
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
 
-    // NORMAL MOTION
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 75%", // Trigger once when rail enters viewport
+      // ========================================================
+      // DESKTOP: CONTINUOUS SCROLLING OVERLAY OVER STATIONARY IMAGES (>= 1024px)
+      // Visual Model:
+      // - LAYER A (Stationary Canvas): 5 process images fixed in predetermined 50vw quadrants.
+      //   Images NEVER move vertically, NEVER follow text panels, NEVER animate independently.
+      // - LAYER B (Continuous Content Page): One large editorial page containing opening heading,
+      //   5 alternating process rows (transparent cutout window opposite blue text panel),
+      //   and cream transition panel sliding upward continuously over the stationary images.
+      // ========================================================
+      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+        if (!containerRef.current || !contentPageRef.current) return;
+
+        // Initialize Layer A images
+        if (discoverImgRef.current) gsap.set(discoverImgRef.current, { opacity: 1 });
+        if (defineImgRef.current) gsap.set(defineImgRef.current, { opacity: 1 });
+        if (designImgRef.current) gsap.set(designImgRef.current, { opacity: 0 });
+        if (buildImgRef.current) gsap.set(buildImgRef.current, { opacity: 0 });
+        if (launchImgRef.current) gsap.set(launchImgRef.current, { opacity: 0 });
+
+        // Initialize Layer B continuous page
+        gsap.set(contentPageRef.current, { yPercent: 0 });
+
+        // Total scroll distance: 5.5 viewports for smooth, continuous scroll-scrubbed pacing
+        const scrollDistance = window.innerHeight * 5.5;
+
+        // Master synchronized scroll-scrubbed timeline (continuous, seamless motion)
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: () => `+=${scrollDistance}`,
+            pin: true,
+            scrub: 0.35, // Responsive 1:1 scroll tracking without artificial stops
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // ----------------------------------------------------
+        // CONTINUOUS UNINTERRUPTED GLIDE OF LAYER B (0.0 -> 6.0)
+        // Continuous page glides up smoothly without artificial pauses or velocity resets
+        // From Opening statement -> Discover -> Define -> Design -> Build -> Launch -> Warm Ivory
+        // ----------------------------------------------------
+        tl.to(
+          contentPageRef.current,
+          {
+            yPercent: -(600 / 7),
+            duration: 6.0,
+            ease: "none",
+          },
+          0.0
+        );
+
+        // ----------------------------------------------------
+        // SYNCHRONIZED STATIONARY IMAGE SWAPS IN LAYER A
+        // Timed exactly when the corresponding column is 100% occluded by the solid text panel:
+        // ----------------------------------------------------
+        // 1. At t = 2.0 (Define): Left column is 100% covered by Define's text panel. Swap left image from Discover to Design.
+        if (discoverImgRef.current && designImgRef.current) {
+          tl.set(discoverImgRef.current, { opacity: 0 }, 2.0);
+          tl.set(designImgRef.current, { opacity: 1 }, 2.0);
+        }
+
+        // 2. At t = 3.0 (Design): Right column is 100% covered by Design's text panel. Swap right image from Define to Build.
+        if (defineImgRef.current && buildImgRef.current) {
+          tl.set(defineImgRef.current, { opacity: 0 }, 3.0);
+          tl.set(buildImgRef.current, { opacity: 1 }, 3.0);
+        }
+
+        // 3. At t = 4.0 (Build): Left column is 100% covered by Build's text panel. Swap left image from Design to Launch.
+        if (designImgRef.current && launchImgRef.current) {
+          tl.set(designImgRef.current, { opacity: 0 }, 4.0);
+          tl.set(launchImgRef.current, { opacity: 1 }, 4.0);
         }
       });
 
-      // Heading entrance
-      tl.fromTo(headerRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
-      );
+      // ========================================================
+      // MOBILE: STACKED TRACK VIEWER (< 1024px)
+      // Continuous scroll-linked sliding motion of stacked cards
+      // ========================================================
+      mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
+        if (!containerRef.current || !mobileTrackRef.current) return;
 
-      // Sequentially construct the timeline from left to right
-      stageRefs.current.forEach((stage, i) => {
-        if (!stage) return;
-        
-        const node = stage.querySelector(".gsap-proc-node");
-        const num = stage.querySelector(".gsap-proc-num");
-        const title = stage.querySelector(".gsap-proc-title");
-        const desc = stage.querySelector(".gsap-proc-desc");
-        const connector = stage.querySelector(".process-connector");
-        const connectorMobile = stage.querySelector(".process-connector-mobile");
+        gsap.set(mobileTrackRef.current, { yPercent: 0 });
 
-        const ease = "power2.out";
-        
-        // 1. Marker appears
-        tl.to(node, { opacity: 1, duration: 0.2, ease });
+        const scrollDistance = window.innerHeight * 4.8;
 
-        // 2. Number fades in
-        tl.to(num, { opacity: 1, duration: 0.3, ease }, "<0.05");
+        const tlMobile = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: () => `+=${scrollDistance}`,
+            pin: true,
+            scrub: 0.35,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
 
-        // 3. Title fades + translates
-        tl.fromTo(title,
-          { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.4, ease },
-          "<0.1" // Small stagger
+        // Continuous linear translation of mobile track without artificial holds
+        tlMobile.to(
+          mobileTrackRef.current,
+          {
+            yPercent: -(600 / 7),
+            duration: 6.0,
+            ease: "none",
+          },
+          0.0
         );
-
-        // 4. Description fades + translates
-        tl.fromTo(desc,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.4, ease },
-          "<0.1" // Small stagger
-        );
-
-        // 5. Draw the connector to the next step
-        if (i < stageRefs.current.length - 1) {
-          if (connector) {
-            tl.fromTo(connector,
-              { scaleX: 0 },
-              { scaleX: 1, duration: 0.45, ease: "none" },
-              "-=0.1" // Start drawing right as the text finishes settling
-            );
-          }
-          if (connectorMobile) {
-            tl.fromTo(connectorMobile,
-              { scaleY: 0 },
-              { scaleY: 1, duration: 0.45, ease: "none" },
-              "<" // Sync desktop and mobile
-            );
-          }
-        }
       });
 
-    });
+      // ========================================================
+      // REDUCED MOTION PREFERENCE
+      // ========================================================
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        if (contentPageRef.current) {
+          gsap.set(contentPageRef.current, { yPercent: -(100 / 7) });
+        }
+        if (mobileTrackRef.current) {
+          gsap.set(mobileTrackRef.current, { yPercent: -(100 / 7) });
+        }
+        if (discoverImgRef.current) gsap.set(discoverImgRef.current, { opacity: 1 });
+      });
 
-    return () => mm.revert();
-  }, { scope: containerRef });
+      return () => mm.revert();
+    },
+    { scope: containerRef }
+  );
 
   return (
-    <section 
+    <section
       id="process"
       ref={containerRef}
-      className="relative w-full min-h-[100svh] lg:min-h-[110svh] flex flex-col pt-[15vh] lg:pt-[18vh] pb-24 lg:pb-[15vh] overflow-hidden"
+      data-nav-theme="green"
+      className="relative w-full bg-[#102D25] z-10"
     >
-      {/* Subtle Background Atmosphere */}
-      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
-        {/* Soft charcoal glow behind the heading */}
-        <div className="absolute top-[-10%] left-0 w-full md:w-[70%] h-[70%] bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.015)_0%,transparent_60%)] opacity-60 md:opacity-100" />
-        
-        {/* Darker edges toward sides and bottom */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_40%,rgba(7,7,9,0.3)_75%,rgba(7,7,9,0.8)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(7,7,9,0.5)_0%,transparent_15%,transparent_85%,rgba(7,7,9,0.5)_100%)]" />
+      {/* ======================================================== */}
+      {/* DESKTOP TWO-LAYER CONTINUOUS COMPOSITION (>= 1024px)     */}
+      {/* LAYER A: Stationary Image Canvas (z-0)                   */}
+      {/* LAYER B: Continuous Scrolling Content Page (z-20)        */}
+      {/* ======================================================== */}
+      <div className="hidden lg:block relative w-full h-screen overflow-hidden">
+        {/* LAYER A: THE STATIONARY IMAGE CANVAS */}
+        <ProcessStationaryCanvas
+          discoverRef={discoverImgRef}
+          defineRef={defineImgRef}
+          designRef={designImgRef}
+          buildRef={buildImgRef}
+          launchRef={launchImgRef}
+        />
+
+        {/* LAYER B: THE CONTINUOUS CONTENT PAGE */}
+        <div
+          ref={contentPageRef}
+          className="absolute top-0 left-0 w-full will-change-transform z-20 pointer-events-auto"
+          style={{ height: "700%" }}
+        >
+          {/* ROW 0: OPENING HEADING & DESCRIPTION */}
+          <div className="w-full h-[100vh] relative overflow-hidden">
+            <ProcessOpeningHeading />
+          </div>
+
+          {/* ROW 01: DISCOVER */}
+          {/* Left: Transparent Cutout Window | Right: Discover Panel */}
+          <div className="w-full h-[100vh] relative flex flex-row overflow-hidden">
+            <div
+              className="w-1/2 h-full bg-transparent select-none pointer-events-none"
+              aria-hidden="true"
+            />
+            <div className="w-1/2 h-full relative">
+              <ProcessTextPanel stage={PROCESS_STAGES[0]} />
+            </div>
+          </div>
+
+          {/* ROW 02: DEFINE */}
+          {/* Left: Define Panel | Right: Transparent Cutout Window */}
+          <div className="w-full h-[100vh] relative flex flex-row overflow-hidden">
+            <div className="w-1/2 h-full relative">
+              <ProcessTextPanel stage={PROCESS_STAGES[1]} />
+            </div>
+            <div
+              className="w-1/2 h-full bg-transparent select-none pointer-events-none"
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* ROW 03: DESIGN */}
+          {/* Left: Transparent Cutout Window | Right: Design Panel */}
+          <div className="w-full h-[100vh] relative flex flex-row overflow-hidden">
+            <div
+              className="w-1/2 h-full bg-transparent select-none pointer-events-none"
+              aria-hidden="true"
+            />
+            <div className="w-1/2 h-full relative">
+              <ProcessTextPanel stage={PROCESS_STAGES[2]} />
+            </div>
+          </div>
+
+          {/* ROW 04: BUILD */}
+          {/* Left: Build Panel | Right: Transparent Cutout Window */}
+          <div className="w-full h-[100vh] relative flex flex-row overflow-hidden">
+            <div className="w-1/2 h-full relative">
+              <ProcessTextPanel stage={PROCESS_STAGES[3]} />
+            </div>
+            <div
+              className="w-1/2 h-full bg-transparent select-none pointer-events-none"
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* ROW 05: LAUNCH */}
+          {/* Left: Transparent Cutout Window | Right: Launch Panel */}
+          <div className="w-full h-[100vh] relative flex flex-row overflow-hidden">
+            <div
+              className="w-1/2 h-full bg-transparent select-none pointer-events-none"
+              aria-hidden="true"
+            />
+            <div className="w-1/2 h-full relative">
+              <ProcessTextPanel stage={PROCESS_STAGES[4]} />
+            </div>
+          </div>
+
+          {/* ROW 06: SEAMLESS TRANSITION INTO #contact */}
+          {/* Warm Ivory cover (#F7F4ED) gliding up over Launch and unpinning */}
+          <div
+            data-nav-theme="cream"
+            className="w-full h-[100vh] relative bg-[#F7F4ED]"
+            aria-hidden="true"
+          />
+        </div>
       </div>
 
-      <div className="relative z-10 max-w-[1600px] mx-auto w-full px-6 lg:px-12 flex flex-col justify-center h-full flex-1">
-        
-        {/* Header Block */}
-        <div ref={headerRef} className="flex flex-col items-start relative z-20">
-          <div className="text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-8 md:mb-10">
-            OUR PROCESS
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-[60px] xl:text-[68px] font-normal leading-[1.05] tracking-tight text-foreground whitespace-pre-line max-w-[500px] lg:max-w-[700px]">
-            From first conversation{"\n"}to shipped product.
-          </h2>
-          <p className="text-base text-muted/80 max-w-[400px] mt-8 leading-relaxed">
-            A focused process that keeps strategy, design, and engineering moving in the same direction.
-          </p>
-        </div>
-
-        {/* Process System Wrapper */}
-        <div className="relative w-full mt-8 lg:mt-12">
-          
-          {/* Atmospheric track depth */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] lg:w-[110%] h-[110%] lg:h-[350px] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] opacity-50 md:opacity-100 blur-[40px] md:blur-[80px] lg:blur-[120px] pointer-events-none z-0" />
-
-          <div className="flex flex-col lg:flex-row relative z-10 w-full items-start justify-between gap-y-20 lg:gap-y-0">
-            {PROCESS_DATA.map((stage, i) => (
-              <ProcessStage 
-                key={stage.id}
-                ref={(el) => { stageRefs.current[i] = el; }}
-                number={stage.id}
-                title={stage.title}
-                description={stage.description}
-                icon={stage.icon}
-                isLast={i === PROCESS_DATA.length - 1}
-                index={i}
-              />
-            ))}
+      {/* ======================================================== */}
+      {/* MOBILE STACKED TRACK VIEWER (< 1024px)                   */}
+      {/* Stacked cards with natural vertical scroll pushing       */}
+      {/* ======================================================== */}
+      <div className="lg:hidden relative w-full h-screen overflow-hidden">
+        <div
+          ref={mobileTrackRef}
+          className="w-full relative will-change-transform"
+          style={{ height: "700%" }}
+        >
+          {/* Mobile Panel 0: Opening Heading */}
+          <div className="w-full h-[100vh] relative overflow-hidden">
+            <ProcessOpeningHeading />
           </div>
 
+          {/* Mobile Panels 1-5: 5 Stages */}
+          {PROCESS_STAGES.map((stage, i) => (
+            <div key={stage.id} className="w-full h-[100vh] relative overflow-hidden">
+              <ProcessMobileStage stage={stage} priority={i === 0} />
+            </div>
+          ))}
+
+          {/* Mobile Panel 6: Warm Ivory Transition to #contact */}
+          <div data-nav-theme="cream" className="w-full h-[100vh] relative bg-[#F7F4ED]" aria-hidden="true" />
         </div>
       </div>
     </section>

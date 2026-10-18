@@ -1,11 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --background: #070709;
-  --surface: #0D0D10;
-  --foreground: #F5F5F5;
-  --muted: #8A8A93;
-  --border: rgba(255,255,255,0.08);
+  /* OFFICIAL DIGITAL JADE × SOFT PEACH PALETTE */
+  --color-ivory: #F7F4ED;
+  --color-jade: #176B55;
+  --color-mint: #BCE8D5;
+  --color-peach: #FFCFB8;
+  --color-forest-ink: #222722;
+  --color-deep-forest: #102D25;
+  --color-jade-dark: #104B3D;
+  --color-jade-light: #64A98E;
+  --color-mint-pale: #E2F2E9;
+  --color-peach-light: #FFE5D8;
+  --color-peach-deep: #C87555;
+  --color-paper-white: #FFFCF7;
+  --color-text-muted: #626A63;
+  --color-text-light: #F7F4ED;
+  --color-border-light: #DEDCD2;
+  --color-border-dark: #34453D;
+
+  /* Semantic UI Tokens */
+  --background: #F7F4ED;
+  --surface: #FFFCF7;
+  --foreground: #222722;
+  --muted: #626A63;
+  --border: #DEDCD2;
+
+  /* Font mapping aliases */
+  --font-space-grotesk: var(--font-sora);
+  --font-geist-sans: var(--font-manrope);
+  --font-geist-mono: var(--font-ibm-plex-mono);
+
+  /* Approved Multicolour Gradient System */
+  --gradient-a: linear-gradient(135deg, #F7F4ED 0%, #FFFCF7 38%, #E2F2E9 72%, #F7F4ED 100%);
+  --gradient-b: radial-gradient(ellipse at 50% 45%, rgba(188, 232, 213, 0.90) 0%, rgba(100, 169, 142, 0.45) 30%, rgba(23, 107, 85, 0.16) 58%, rgba(247, 244, 237, 0) 78%);
+  --gradient-c: linear-gradient(135deg, #104B3D 0%, #176B55 34%, #64A98E 68%, #BCE8D5 100%);
+  --gradient-d: linear-gradient(125deg, #104B3D 0%, #176B55 28%, #64A98E 48%, #BCE8D5 63%, #FFCFB8 82%, #FFE5D8 100%);
+  --gradient-e: linear-gradient(180deg, #BCE8D5 0%, #D0EDE0 18%, #E2F2E9 42%, #F0F4EC 68%, #F7F4ED 100%);
+  --gradient-f: linear-gradient(135deg, #102D25 0%, #222722 45%, #173D32 72%, #102D25 100%);
+  --gradient-g: linear-gradient(135deg, #FFE5D8 0%, #FFCFB8 48%, #F7D9C8 100%);
+  --gradient-h: linear-gradient(180deg, #104B3D 0%, #176B55 24%, #64A98E 48%, #BCE8D5 68%, #FFCFB8 86%, #FFE5D8 100%);
 }
 
 @theme inline {
@@ -14,20 +48,38 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-body: var(--font-manrope), sans-serif;
+  --font-display: var(--font-sora), sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), monospace;
+
+  --color-ivory: #F7F4ED;
+  --color-jade: #176B55;
+  --color-mint: #BCE8D5;
+  --color-peach: #FFCFB8;
+  --color-forest-ink: #222722;
+  --color-deep-forest: #102D25;
+  --color-jade-dark: #104B3D;
+  --color-jade-light: #64A98E;
+  --color-mint-pale: #E2F2E9;
+  --color-peach-light: #FFE5D8;
+  --color-peach-deep: #C87555;
+  --color-paper-white: #FFFCF7;
+  --color-text-muted: #626A63;
+  --color-text-light: #F7F4ED;
+  --color-border-light: #DEDCD2;
+  --color-border-dark: #34453D;
 }
 
 html {
-  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
 }
-
-
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-manrope), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,4 +92,137 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--foreground) !important;
   caret-color: var(--foreground) !important;
   transition: background-color 50000s ease-in-out 0s;
+}
+
+/* ======================================================== */
+/* HERO TYPOGRAPHY & INDIVIDUALLY TARGETABLE LETTERS        */
+/* Prepared for cinematic 3-stage letter convergence        */
+/* ======================================================== */
+.hero-word {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: auto;
+  max-width: 100%;
+  font-family: var(--font-sora), sans-serif;
+  font-weight: 700;
+  line-height: 0.88;
+  user-select: none;
+  font-size: clamp(3.75rem, 23vw, 26rem);
+}
+
+/* Editorial overflow wrappers for letter entrance reveal */
+.hero-letter-wrapper {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 0.12em;
+  padding-bottom: 0.12em;
+  margin-top: -0.12em;
+  margin-bottom: -0.12em;
+}
+
+.hero-letter-wrapper--e { margin-left: -0.02em; }
+.hero-letter-wrapper--l { margin-left: -0.02em; }
+.hero-letter-wrapper--v { margin-left: -0.03em; }
+.hero-letter-wrapper--o { margin-left: -0.025em; }
+.hero-letter-wrapper--r { margin-left: -0.02em; }
+
+.hero-letter {
+  display: inline-block;
+  margin: 0;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: url('/images/green_background.png');
+  background-size: 600% 100%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  user-select: none;
+}
+
+/* Individual letter texture slices */
+.hero-letter--k { background-position: 0% 50%; }
+.hero-letter--e { background-position: 20% 50%; }
+.hero-letter--l { background-position: 40% 50%; }
+.hero-letter--v { background-position: 60% 50%; }
+.hero-letter--o { background-position: 80% 50%; }
+.hero-letter--r { background-position: 100% 50%; }
+
+/* ======================================================== */
+/* FOOTER OVERSIZED TYPOGRAPHY REVEAL                       */
+/* Uses Gradient H: Jade -> Mint -> Soft Peach              */
+/* ======================================================== */
+.footer-reveal-word {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: auto;
+  max-width: 100%;
+  font-family: var(--font-sora), sans-serif;
+  font-weight: 700;
+  line-height: 0.88;
+  user-select: none;
+  white-space: nowrap;
+  font-size: clamp(2.75rem, 21.5vw, 26.5rem);
+}
+
+.footer-reveal-letter-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: 0.15em;
+  padding-bottom: 0.15em;
+  margin-top: -0.15em;
+  margin-bottom: -0.15em;
+  line-height: 0.88;
+}
+
+.footer-reveal-letter-wrap--k { margin-left: 0; }
+.footer-reveal-letter-wrap--e { margin-left: -0.02em; }
+.footer-reveal-letter-wrap--l { margin-left: -0.02em; }
+.footer-reveal-letter-wrap--v { margin-left: -0.06em; }
+.footer-reveal-letter-wrap--o { margin-left: -0.025em; }
+.footer-reveal-letter-wrap--r { margin-left: -0.02em; }
+
+.footer-reveal-letter {
+  display: inline-block;
+  margin: 0;
+  background-image: linear-gradient(180deg, #104B3D 0%, #176B55 24%, #64A98E 48%, #BCE8D5 68%, #FFCFB8 86%, #FFE5D8 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--font-sora), sans-serif;
+  font-weight: 700;
+  line-height: 0.88;
+  user-select: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ======================================================== */
+/* OUR PROCESS TYPEWRITER CURSOR ANIMATION                  */
+/* Slim, vertical line cursor blinking at ~400ms            */
+/* ======================================================== */
+@keyframes processCursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-process-cursor {
+  animation: processCursorBlink 400ms infinite ease-in-out;
 }

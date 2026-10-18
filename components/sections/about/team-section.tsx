@@ -22,56 +22,77 @@ const TEAM = [
 
 export function TeamSection() {
   return (
-    <section id="about" className="relative w-full px-6 lg:px-12 pt-24 pb-32 md:pb-40 overflow-hidden z-10">
+    <section
+      id="about"
+      data-nav-theme="green"
+      className="relative w-full px-4 min-[360px]:px-6 lg:px-12 pt-16 sm:pt-24 pb-24 sm:pb-32 md:pb-40 overflow-hidden z-10"
+      style={{
+        background: "linear-gradient(135deg, #102D25 0%, #222722 55%, #173D32 100%)",
+      }}
+    >
       <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-12 lg:gap-12">
         
         {/* Top: Manifesto */}
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 justify-between items-start">
+        <div className="flex flex-col lg:flex-row gap-10 sm:gap-16 lg:gap-24 justify-between items-start">
           {/* Left: Main Statement */}
           <div className="w-full flex flex-col items-start">
-            <div className="text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-8 md:mb-10">
+            <div className="text-xs font-mono font-semibold tracking-[0.2em] text-[#FFCFB8] uppercase mb-6 sm:mb-8 md:mb-10">
               ABOUT KELVOR
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-[60px] xl:text-[68px] font-normal leading-[1.05] tracking-tight text-foreground max-w-[600px] lg:max-w-[800px]">
+            <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl md:text-5xl lg:text-[60px] xl:text-[68px] font-display font-medium leading-[1.08] sm:leading-[1.05] tracking-tight text-[#F7F4ED] max-w-[600px] lg:max-w-[800px]">
               A small team with a big focus.
             </h2>
-            <p className="text-base text-muted/80 max-w-[440px] mt-8 leading-relaxed whitespace-pre-line">
+            <p className="text-sm sm:text-base font-body text-[#BCE8D5] max-w-[440px] mt-4 sm:mt-6 md:mt-8 leading-relaxed sm:whitespace-pre-line">
               We are four builders who love turning complex{"\n"}problems into simple, beautiful and functional{"\n"}products.
             </p>
-            <a href="#about" className="inline-flex items-center justify-center gap-3 mt-10 md:mt-12 text-sm font-medium text-foreground hover:text-white/70 transition-colors group">
+            <a
+              href="#about"
+              className="inline-flex items-center justify-center gap-3 mt-6 sm:mt-8 md:mt-12 text-sm font-body font-medium text-[#F7F4ED] hover:text-[#FFCFB8] transition-colors group"
+            >
               More about us
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </a>
           </div>
-
-
         </div>
 
         {/* Bottom: Team Sequence */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 sm:gap-y-12 w-full">
           {TEAM.map((member, i) => (
             <div key={i} className="flex flex-col w-full group">
               {/* Editorial Portrait */}
-              <div className="relative w-full aspect-[3/4] mb-5 overflow-hidden bg-white/5">
+              <div className="relative w-full aspect-[3/4] mb-5 overflow-hidden rounded-sm bg-[#102D25] border border-[rgba(247,244,237,0.16)] transition-all duration-300 group-hover:border-[rgba(188,232,213,0.50)] group-hover:shadow-[0_0_25px_rgba(23,107,85,0.22)]">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                   className="object-cover grayscale transition-all duration-[600ms] ease-out group-hover:grayscale-0 motion-safe:group-hover:scale-[1.015]"
                 />
               </div>
               
               {/* Typography Structure */}
               <div className="flex flex-col gap-1">
-                <h3 className="text-xl font-semibold tracking-tight text-foreground">
+                <h3 className="text-xl font-display font-semibold tracking-tight text-[#F7F4ED]">
                   {member.name}
                 </h3>
                 <div className="flex items-center justify-between mt-1">
-                  <div className="flex gap-3 text-muted/50 mt-1">
-                    <a href={member.linkedin} aria-label={`${member.name} on LinkedIn`} className="hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
+                  <div className="flex gap-2 text-[#BCE8D5]/70 mt-1">
+                    <a
+                      href={member.linkedin}
+                      aria-label={`${member.name} on LinkedIn`}
+                      className="p-2 -m-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center hover:text-[#FFCFB8] transition-colors"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <LinkedinIcon className="w-4 h-4" />
                     </a>
-                    <a href={member.github} aria-label={`${member.name} on GitHub`} className="hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={member.github}
+                      aria-label={`${member.name} on GitHub`}
+                      className="p-2 -m-2 min-w-[36px] min-h-[36px] inline-flex items-center justify-center hover:text-[#FFCFB8] transition-colors"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <GithubIcon className="w-4 h-4" />
                     </a>
                   </div>

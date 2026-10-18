@@ -85,7 +85,7 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
           role="dialog"
           aria-modal="true"
           aria-label={`${project.title} Project Gallery`}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-background text-foreground overflow-hidden"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-[#102D25]/95 backdrop-blur-md text-[#F7F4ED] overflow-hidden"
           onClick={onClose}
         >
           {/* Hidden Adjacent Images Prefetch */}
@@ -125,16 +125,16 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
             className="w-full flex items-center justify-between px-6 py-8 md:px-12 md:py-10 z-10 shrink-0"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase">{project.title}</h2>
+            <h2 className="text-xs md:text-sm font-display font-bold tracking-[0.2em] uppercase text-[#F7F4ED]">{project.title}</h2>
             
             <div className="flex items-center gap-12 md:gap-24">
-              <div className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+              <div className="text-xs font-mono font-semibold tracking-widest text-[#BCE8D5] uppercase">
                 {(currentIndex + 1).toString().padStart(2, "0")} / {imageCount.toString().padStart(2, "0")}
               </div>
               
               <button 
                 onClick={onClose} 
-                className="text-xs font-semibold tracking-[0.2em] uppercase hover:text-white/70 transition-colors focus:outline-none focus:underline underline-offset-4"
+                className="text-xs font-mono font-semibold tracking-[0.2em] uppercase text-[#F7F4ED] hover:text-[#FFCFB8] transition-colors focus:outline-none focus:underline underline-offset-4 min-h-[44px] min-w-[44px] flex items-center justify-center p-2 -mr-2"
                 aria-label="Close Gallery"
               >
                 Close
@@ -150,7 +150,7 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
             {/* Desktop Prev */}
             {imageCount > 1 && (
               <button 
-                className="hidden md:block text-xs font-semibold tracking-[0.2em] uppercase hover:text-white/70 transition-colors absolute left-12 z-20 focus:outline-none focus:underline underline-offset-4" 
+                className="hidden md:block text-xs font-mono font-semibold tracking-[0.2em] uppercase text-[#F7F4ED] hover:text-[#FFCFB8] transition-colors absolute left-12 z-20 focus:outline-none focus:underline underline-offset-4" 
                 onClick={() => paginate(-1)}
                 aria-label="Previous Image"
               >
@@ -224,7 +224,7 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
             {/* Desktop Next */}
             {imageCount > 1 && (
               <button 
-                className="hidden md:block text-xs font-semibold tracking-[0.2em] uppercase hover:text-white/70 transition-colors absolute right-12 z-20 focus:outline-none focus:underline underline-offset-4" 
+                className="hidden md:block text-xs font-mono font-semibold tracking-[0.2em] uppercase text-[#F7F4ED] hover:text-[#FFCFB8] transition-colors absolute right-12 z-20 focus:outline-none focus:underline underline-offset-4" 
                 onClick={() => paginate(1)}
                 aria-label="Next Image"
               >
@@ -240,15 +240,15 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
           >
             {/* Mobile Navigation */}
             {imageCount > 1 && (
-              <div className="flex md:hidden items-center justify-between w-full border-b border-white/10 pb-6 mb-2">
+              <div className="flex md:hidden items-center justify-between w-full border-b border-[rgba(247,244,237,0.16)] pb-6 mb-2">
                 <button 
-                  className="text-[10px] font-semibold tracking-[0.2em] uppercase focus:outline-none focus:underline underline-offset-4" 
+                  className="text-[10px] font-mono font-semibold tracking-[0.2em] uppercase text-[#F7F4ED] hover:text-[#FFCFB8] focus:outline-none focus:underline underline-offset-4" 
                   onClick={() => paginate(-1)}
                 >
                   Previous
                 </button>
                 <button 
-                  className="text-[10px] font-semibold tracking-[0.2em] uppercase focus:outline-none focus:underline underline-offset-4" 
+                  className="text-[10px] font-mono font-semibold tracking-[0.2em] uppercase text-[#F7F4ED] hover:text-[#FFCFB8] focus:outline-none focus:underline underline-offset-4" 
                   onClick={() => paginate(1)}
                 >
                   Next
@@ -256,11 +256,11 @@ export function ProjectGallery({ project, onClose }: ProjectGalleryProps) {
               </div>
             )}
 
-            <p className="text-xl md:text-2xl font-light text-foreground whitespace-pre-line leading-snug max-w-xl">
+            <p className="text-xl md:text-2xl font-display font-light text-[#F7F4ED] whitespace-pre-line leading-snug max-w-xl">
               {project.tagline}
             </p>
 
-            <div className="text-[10px] md:text-xs font-semibold tracking-[0.3em] text-foreground/60 uppercase">
+            <div className="text-[10px] md:text-xs font-mono font-semibold tracking-[0.3em] text-[#BCE8D5] uppercase">
               {project.meta}
             </div>
           </div>

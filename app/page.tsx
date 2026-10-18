@@ -2,13 +2,13 @@ import Navbar from "@/components/layout/navbar";
 import { HeroSection } from "@/components/sections/hero/hero-section";
 import { HeroOrchestrator } from "@/components/sections/hero/hero-orchestrator";
 import { SelectedWorkSection } from "@/components/sections/work/selected-work";
-import { CapabilitiesSection } from "@/components/sections/capabilities/capabilities-section";
 import { ProcessSection } from "@/components/sections/process/process-section";
 import { TeamSection } from "@/components/sections/about/team-section";
 import { FinalCTASection } from "@/components/sections/final-cta/final-cta-section";
 import Footer from "@/components/layout/footer";
 import { AmbientBackground } from "@/components/ui/ambient-background";
 import { Loader } from "@/components/ui/loader";
+import { ScrollReset } from "@/components/utils/scroll-reset";
 
 export default function Home() {
   return (
@@ -16,7 +16,8 @@ export default function Home() {
       {/* Global atmospheric background — fixed, behind all content */}
       <AmbientBackground />
 
-      <main className="min-h-screen relative z-[1] selection:bg-foreground selection:text-background">
+      <main className="min-h-screen relative z-[1] selection:bg-[#176B55] selection:text-[#F7F4ED]">
+        <ScrollReset />
         <Loader />
         <script
           type="application/ld+json"
@@ -35,24 +36,23 @@ export default function Home() {
             })
           }}
         />
+        <Navbar />
         <HeroOrchestrator>
-          <Navbar />
           <HeroSection />
         </HeroOrchestrator>
 
-        {/* SECTION 02 - Selected Work */}
+        {/* SECTION 02 - Selected Work & Services (Continuous Experience) */}
         <SelectedWorkSection />
-
-        {/* SECTION 03 - Capabilities */}
-        <CapabilitiesSection />
 
         {/* SECTION 04 - Our Process */}
         <ProcessSection />
 
-        {/* SECTION 05 - Team */}
+        {/* SECTION 05 - Have a Project in Mind? (Final CTA) */}
+        <FinalCTASection />
+
+        {/* SECTION 06 - About Kelvor (Team) */}
         <TeamSection />
 
-        <FinalCTASection />
         <Footer />
       </main>
     </>

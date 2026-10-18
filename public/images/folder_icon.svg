@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Back shell & Tab -->
+  <path d="M 6.5 9 C 5.1 9 4 10.1 4 11.5 L 4 37 C 4 38.7 5.3 40 7 40 L 41 40 C 42.7 40 44 38.7 44 37 L 44 14.5 C 44 13.1 42.9 12 41.5 12 L 19.5 12 L 16.5 9.5 C 15.8 9.2 15 9 14.2 9 Z" fill="#0277BD"/>
+  <!-- Front cover flap -->
+  <rect x="4" y="14" width="40" height="25" rx="2.5" fill="#4FC3F7"/>
+</svg>
