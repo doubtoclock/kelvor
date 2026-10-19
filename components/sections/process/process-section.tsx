@@ -111,19 +111,23 @@ export function ProcessSection() {
       // ========================================================
       // MOBILE: STACKED TRACK VIEWER (< 1024px)
       // Continuous scroll-linked sliding motion of stacked cards
+      // Paced proportionally across all 6 stage transitions
       // ========================================================
       mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
         if (!containerRef.current || !mobileTrackRef.current) return;
 
         gsap.set(mobileTrackRef.current, { yPercent: 0 });
 
-        const scrollDistance = window.innerHeight * 4.8;
+        // Total 7 panels (Heading + 5 stages + transition panel) = 6 stage transitions.
+        // 1.4 viewports per transition (~1050px) gives smooth, readable continuous pacing
+        // where a standard thumb swipe advances gradually without skipping stages.
+        const getMobileScrollDistance = () => window.innerHeight * 8.4;
 
         const tlMobile = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top top",
-            end: () => `+=${scrollDistance}`,
+            end: () => `+=${getMobileScrollDistance()}`,
             pin: true,
             scrub: 0.35,
             anticipatePin: 1,
