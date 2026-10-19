@@ -226,3 +226,15 @@ input:-webkit-autofill:active {
 .animate-process-cursor {
   animation: processCursorBlink 400ms infinite ease-in-out;
 }
+
+/* ======================================================== */
+/* ABOUT US TEAM PORTRAITS — MOBILE COLOR OVERRIDE          */
+/* Display all four photos permanently in full color on      */
+/* mobile devices (< 768px)                                 */
+/* ======================================================== */
+@media (max-width: 767px) {
+  .team-portrait-image {
+    filter: grayscale(0%) !important;
+  }
+}
+

@@ -66,7 +66,7 @@ export function TeamSection() {
                   alt={member.name}
                   fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover grayscale transition-all duration-[600ms] ease-out group-hover:grayscale-0 motion-safe:group-hover:scale-[1.015]"
+                  className="team-portrait-image object-cover grayscale transition-all duration-[600ms] ease-out group-hover:grayscale-0 motion-safe:group-hover:scale-[1.015]"
                 />
               </div>
               
